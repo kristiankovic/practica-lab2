@@ -1,0 +1,78 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "556da643667db4ef7bd1efce34668fc9",
+    "entities": [
+      {
+        "tableName": "categorias",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idCategoria` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre_categoria` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "idCategoria",
+            "columnName": "idCategoria",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre_categoria",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "idCategoria"
+          ]
+        }
+      },
+      {
+        "tableName": "articulos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idArticulo` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `descripcion_articulo` TEXT, `idCategoria` INTEGER NOT NULL, FOREIGN KEY(`idCategoria`) REFERENCES `categorias`(`idCategoria`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "idArticulo",
+            "columnName": "idArticulo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion_articulo",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "idCategoria",
+            "columnName": "idCategoria",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "idArticulo"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "categorias",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "idCategoria"
+            ],
+            "referencedColumns": [
+              "idCategoria"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '556da643667db4ef7bd1efce34668fc9')"
+    ]
+  }
+}
