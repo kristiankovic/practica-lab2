@@ -24,15 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         layout();
 
-        db = AppDatabase.getInstance(getApplicationContext());
-
-        AppDatabase.databaseWriteExecuto.execute(() -> {
-            db.categoria_dao().insertCategoria(new Categoria("Cargadores"));
-            runOnUiThread(() -> {
-                Toast.makeText(this, "se inserto el dato", Toast.LENGTH_SHORT).show();
-            });
-        });
-
         navigationView = findViewById(R.id.menuButton);
         loadFragment(new HomeFragment());
 

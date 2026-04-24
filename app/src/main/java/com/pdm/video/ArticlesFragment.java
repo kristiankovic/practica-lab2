@@ -1,9 +1,14 @@
 package com.pdm.video;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ArticlesFragment extends Fragment {
     private FloatingActionButton btnInsertar;
+    private ActivityResultLauncher<Intent> launcherInsert;
+
     public static ArticlesFragment newInstance(String param1, String param2) {
         ArticlesFragment fragment = new ArticlesFragment();
         return fragment;
@@ -21,6 +28,11 @@ public class ArticlesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        launcherInsert = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+           if(result.getResultCode() == Activity.RESULT_OK){
+               Log.d("KEY", "evento ejecutado");
+           }
+        });
     }
 
     @Override
@@ -32,7 +44,9 @@ public class ArticlesFragment extends Fragment {
          btnInsertar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Toast.makeText(getContext(), "Prueba", Toast.LENGTH_SHORT).show();
+                 //Toast.makeText(getContext(), "Prueba", Toast.LENGTH_SHORT).show();
+                 Intent intento = new Intent(getContext(), InsertProductoActivity.class);
+                 launcherInsert.launch(intento);
              }
          });
         return view;
