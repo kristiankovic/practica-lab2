@@ -43,9 +43,9 @@ public class InsertProductoActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 //Toast.makeText(this, "se inserto el dato", Toast.LENGTH_SHORT).show();
-                adapter = new CategoriaAdapter(getApplicationContext(), data, (categoria) -> {
-                    Toast.makeText(this, "Id categoria: " + String.valueOf(categoria.idCategoria), Toast.LENGTH_SHORT).show();
-                    categoria = categoria;
+                adapter = new CategoriaAdapter(getApplicationContext(), data, selectedCategoria -> {
+                    Toast.makeText(this, "Id categoria: " + String.valueOf(selectedCategoria.idCategoria), Toast.LENGTH_SHORT).show();
+                    categoria = selectedCategoria;
                 });
                 list_categorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                 list_categorias.setAdapter(adapter);
@@ -68,20 +68,22 @@ public class InsertProductoActivity extends AppCompatActivity {
 
         AppDatabase.databaseWriteExecuto.execute(() -> {
 
-            Articulo a = new Articulo();
-            String descripcion = txtDescripcion.getText().toString().trim();
 
-            if(descripcion.isEmpty()){
-                txtDescripcion.setError("Ingrese una descripcion");
-            }
-
-            else{
-                a.idCategoria = categoria.idCategoria;
-                a.descripcion = descripcion;
-                db.articulo_dao().insertArticulo(a);
-            }
 
             runOnUiThread(() -> {
+                Articulo a = new Articulo();
+                String descripcion = txtDescripcion.getText().toString().trim();
+
+                if(descripcion.isEmpty()){
+                    txtDescripcion.setError("Ingrese una descripcion");
+                }
+
+                else{
+                    a.idCategoria = categoria.idCategoria;
+                    a.descripcion = descripcion;
+                    db.articulo_dao().insertArticulo(a);
+                }
+
                 Toast.makeText(this, "se inserto el dato", Toast.LENGTH_SHORT).show();
             });
         });
